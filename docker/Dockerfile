@@ -1,4 +1,4 @@
-FROM  cyberdojofoundation/groovy:2.4.12
+FROM  cyberdojofoundation/groovy
 LABEL maintainer=jon@jaggersoft.com
 
 ARG VERSION=2.4.12
