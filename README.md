@@ -1,4 +1,3 @@
-
 [![CircleCI](https://circleci.com/gh/cyber-dojo-languages/groovy-spock.svg?style=svg)](https://circleci.com/gh/cyber-dojo-languages/groovy-spock)
 
 ## display_name="Groovy, Spock"
