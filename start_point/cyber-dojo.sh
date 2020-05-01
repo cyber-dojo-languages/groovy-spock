@@ -1,6 +1,6 @@
 set -x
 
-groovyc -cp ${SPOCK_JAR} *.groovy
+groovyc *.groovy
 if [ $? -eq 0 ]; then
-  groovy -cp ${SPOCK_JAR} HikerSpec
+  groovy HikerSpec
 fi
