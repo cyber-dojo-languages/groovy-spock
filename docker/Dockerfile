@@ -16,9 +16,4 @@ LABEL maintainer=jon@jaggersoft.com
 ARG SPOCK_JAR=spock-core-2.0-M2-groovy-3.0.jar
 COPY ${SPOCK_JAR} ${GROOVY_HOME}/lib
 
-#RUN mkdir /spock
-#COPY ${SPOCK_JAR} /spock
-
-#ENV SPOCK_JAR=/spock/${SPOCK_JAR}
-
 COPY red_amber_green.rb /usr/local/bin
