@@ -10,5 +10,7 @@
 
   "image_name": "cyberdojofoundation/groovy_spock",
 
-  "filename_extension": ".groovy"
+  "filename_extension": ".groovy",
+
+  "max_seconds": 15
 }

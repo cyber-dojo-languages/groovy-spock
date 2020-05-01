@@ -13,16 +13,10 @@ RUN apk add --update coreutils bash tar file
 
 LABEL maintainer=jon@jaggersoft.com
 
-ARG VERSION=3.0.3
+ARG SPOCK_JAR=spock-core-2.0-M2-groovy-3.0.jar
+RUN mkdir /spock
+COPY ${SPOCK_JAR} /spock
 
-RUN mkdir /groovy
-
-COPY spock-core-2.0-M2-groovy-3.0.jar /groovy/
-
-RUN cp /groovy-${VERSION}/indy/groovy-${VERSION}-indy.jar /groovy/
-RUN cp /groovy-${VERSION}/lib/hamcrest-core-1.3.jar       /groovy/
-RUN cp /groovy-${VERSION}/lib/junit-4.13.jar              /groovy/
-
-ENV CLASSPATH=/groovy/
+ENV SPOCK_JAR=/spock/${SPOCK_JAR}
 
 COPY red_amber_green.rb /usr/local/bin
