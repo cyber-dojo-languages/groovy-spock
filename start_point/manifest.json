@@ -1,16 +1,14 @@
 
 {
+  "image_name": "cyberdojofoundation/groovy_spock",
   "display_name": "Groovy, Spock",
-
-  "visible_filenames": [
+  "visible_filenames":
+  [
     "HikerSpec.groovy",
     "Hiker.groovy",
     "cyber-dojo.sh"
   ],
-
-  "image_name": "cyberdojofoundation/groovy_spock",
-
-  "filename_extension": ".groovy",
-
-  "max_seconds": 15
+  "filename_extension": [ ".groovy" ],
+  "max_seconds": 15,
+  "tab_size": 4
 }
