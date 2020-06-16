@@ -1,11 +1,16 @@
 
 lambda { |stdout,stderr,status|
   output = stdout + stderr
-  junit5_pattern = Regexp.new('JUnit5 launcher: passed=(\d+), failed=(\d+), skipped=0')
-  if match = junit5_pattern.match(output)
-    return :red if match[2] != '0'
-    return :red if match[1] == '0'
-    return :green
+  green_pattern = Regexp.new('^OK \((\d+) test')
+  if match = green_pattern.match(output)
+    return :green if match[1] != '0'
+    return :red # treat zero passes as a fail
   end
-  return :amber
+ amber_patterns = [
+    'groovyc: command not found',
+    'groovy\.lang',
+    'MultipleCompilationErrorsException'
+  ]
+  return :amber if amber_patterns.any? { |pattern| Regexp.new(pattern).match(output) }
+  return :red
 }
