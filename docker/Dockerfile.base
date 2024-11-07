@@ -1,7 +1,7 @@
-FROM cyberdojofoundation/groovy:b88c952
+FROM ghcr.io/cyber-dojo-languages/groovy:a7445f4
 LABEL maintainer=jon@jaggersoft.com
 
-ARG VERSION=4.0.9
+ARG VERSION=4.0.23
 
 RUN mkdir /groovy
 
