@@ -33,7 +33,7 @@ cd "${WORK_DIR}"
 # Recorded from the same command line cyber-dojo.sh runs, so that the classes
 # held are the ones a kata actually loads.
 JAVA_OPTS="-XX:AOTCacheOutput=${SPOCK_CACHE}" \
-  groovy -cp "${SPOCK_JAR}" /run_spec_files.groovy GreeterSpec.groovy
+  groovy -cp "${SPOCK_JAR}" /run_spec_files.groovy Greeter.groovy GreeterSpec.groovy
 
 # The sandbox user reads it at run time and owns nothing here.
 chmod 0644 "${SPOCK_CACHE}"

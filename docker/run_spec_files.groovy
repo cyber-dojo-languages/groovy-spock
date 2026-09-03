@@ -1,5 +1,5 @@
-// Runs the specs in the kata's files and exits 0 when they all pass and 1 when
-// they do not.
+// Compiles the kata's files, runs the specs among them, and exits 0 when they
+// all pass and 1 when they do not.
 //
 // The files are named by the glob in cyber-dojo.sh. Nothing here knows the
 // names the start-point ships; a learner writes source and spec files named for
@@ -7,12 +7,14 @@
 //
 // One JVM runs every spec. Handing groovy a spec class runs that one class, so
 // a kata with several spec files would start a JVM for each, and starting one
-// costs more than running the specs in it.
+// costs more than running the specs in it. One JVM also prints one summary,
+// counting every spec, rather than one summary per file.
 
 import org.codehaus.groovy.control.MultipleCompilationErrorsException
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder
 import org.junit.platform.launcher.core.LauncherFactory
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener
+import spock.lang.Specification
 
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
 
@@ -25,24 +27,29 @@ static Throwable compilerErrorIn(Throwable failure) {
   null
 }
 
-// The kata's own directory is on the loader's classpath, so a spec's source
-// file compiles here and the classes it refers to compile with it. That is how
-// a learner's source file is found without being named on the command line.
+// The kata's own directory is on the loader's classpath, so a file compiles
+// here and the classes it refers to compile with it.
 final loader = new GroovyClassLoader(this.class.classLoader)
 loader.addClasspath('.')
 
-def specs
+def compiled
 try {
-  specs = args.collect { loader.parseClass(new File(it)) }
+  compiled = args.collect { loader.parseClass(new File(it)) }
 } catch (Throwable failure) {
   // A kata that will not compile is what the compiler says it is, and its
-  // message names the file, the line and the column. Compiling a spec's
+  // message names the file, the line and the column. Compiling one file's
   // dependencies happens through a lookup that wraps that message in an
   // internal error naming this file, which says nothing about the kata, so the
   // compiler's own exception is dug out and printed on its own.
   System.err.println(compilerErrorIn(failure) ?: failure)
   System.exit(1)
 }
+
+// Every file the kata holds is compiled above, so one you are midway through
+// writing shows its errors rather than being passed over in silence. The specs
+// among them are the classes extending Specification, which is what spock
+// itself looks for; the name of the file a spec sits in makes no difference.
+final specs = compiled.findAll { Specification.isAssignableFrom(it) }
 
 final request = LauncherDiscoveryRequestBuilder.request()
   .selectors(specs.collect { selectClass(it) })
