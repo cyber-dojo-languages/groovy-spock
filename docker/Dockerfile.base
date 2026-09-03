@@ -13,3 +13,16 @@ RUN cp /groovy-${VERSION}/lib/junit-4.13.2.jar            /groovy/
 
 ENV CLASSPATH=/groovy/
 
+# cyber-dojo.sh runs this once, with the kata's spec files, rather than running
+# groovy once per spec file. It explains why one JVM for all of them is what
+# makes a kata with several specs no slower than a kata with one.
+COPY run_spec_files.groovy /
+
+# A kata's test run reads the AOT cache this leaves in /aot instead of loading
+# those classes from the jars again on every [test] press. The script explains
+# which classes it holds.
+COPY throwaway_kata /tmp/throwaway_kata
+COPY record_aot_cache.sh /tmp/
+RUN bash /tmp/record_aot_cache.sh \
+ && rm -rf /tmp/record_aot_cache.sh /tmp/throwaway_kata
+
