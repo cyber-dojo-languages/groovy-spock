@@ -1,15 +1,20 @@
-FROM ghcr.io/cyber-dojo-languages/groovy:a977baf
+FROM ghcr.io/cyber-dojo-languages/groovy:7361130
 LABEL maintainer=jon@jaggersoft.com
-
-ARG VERSION=5.0.0
 
 RUN mkdir /groovy
 
+# Spock publishes one build per groovy line, and this is the one for groovy
+# 5.0, which covers the whole of groovy 5. The base resolves the newest
+# stable groovy, so the first groovy 6 release will need the matching spock
+# build rather than this one.
 COPY spock-core-2.4-groovy-5.0.jar /groovy/
 
-RUN cp /groovy-${VERSION}/lib/groovy-${VERSION}.jar       /groovy/
-RUN cp /groovy-${VERSION}/lib/hamcrest-core-1.3.jar       /groovy/
-RUN cp /groovy-${VERSION}/lib/junit-4.13.2.jar            /groovy/
+# The jars are taken from the distribution by glob rather than by name. The
+# base resolves the newest stable groovy when it is built, so a name here
+# would be a second copy of a version this image does not choose.
+RUN cp ${GROOVY_HOME}/lib/groovy-[0-9]*.jar    /groovy/
+RUN cp ${GROOVY_HOME}/lib/hamcrest-core-*.jar  /groovy/
+RUN cp ${GROOVY_HOME}/lib/junit-4*.jar         /groovy/
 
 ENV CLASSPATH=/groovy/
 
